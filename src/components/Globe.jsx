@@ -47,7 +47,7 @@ const Globe = ({ size = 150 }) => {
       for (let i = 0; i < 12; i++) {
         const angle = (i * Math.PI) / 6 + rotation;
         ctx.beginPath();
-        ctx.ellipse(centerX, centerY, radius * Math.cos(angle), radius, 0, 0, Math.PI * 2);
+        ctx.ellipse(centerX, centerY, Math.abs(radius * Math.cos(angle)), radius, 0, 0, Math.PI * 2);
         ctx.stroke();
       }
       
