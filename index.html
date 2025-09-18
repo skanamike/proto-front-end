@@ -1,13 +1,182 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AuraChain - Supply Chain Forecasting</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+        }
+        .pulse-dot {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50">
+    <!-- Header -->
+    <header class="border-b border-gray-200 bg-white">
+        <div class="flex h-16 items-center px-6">
+            <h1 class="text-xl font-semibold text-gray-900">AuraChain - Supply Chain Forecasting</h1>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="p-6">
+        <div class="grid gap-4 md:grid-cols-1 lg:grid-cols-4">
+            <!-- Global Risk Hotspots with Globe -->
+            <div class="rounded-lg border bg-white shadow-sm col-span-1 lg:col-span-3 row-span-2 flex flex-col">
+                <!-- Globe placeholder -->
+                <div class="flex items-center justify-center p-6">
+                    <div class="w-36 h-36 border-2 border-gray-300 rounded-full flex items-center justify-center">
+                        <canvas id="globe" width="150" height="150" class="w-36 h-36"></canvas>
+                    </div>
+                </div>
+                
+                <!-- Content section -->
+                <div class="flex flex-col space-y-1.5 p-6 pt-0">
+                    <h3 class="text-2xl font-semibold text-gray-900">Global Risk Hotspots</h3>
+                    <p class="text-sm text-gray-600">
+                        Real-time monitoring of supply chain disruptions and risk factors across major trade routes.
+                    </p>
+                </div>
+                
+                <!-- Risk indicators -->
+                <div class="flex-1 p-6 pt-0">
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-3 h-3 bg-red-500 rounded-full pulse-dot"></div>
+                                <span class="text-sm font-medium">Port Congestion - Shanghai</span>
+                            </div>
+                            <span class="text-sm text-red-600 font-medium">High Risk</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-3 h-3 bg-yellow-500 rounded-full pulse-dot"></div>
+                                <span class="text-sm font-medium">Weather Delays - Atlantic</span>
+                            </div>
+                            <span class="text-sm text-yellow-600 font-medium">Medium Risk</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-3 h-3 bg-red-500 rounded-full pulse-dot"></div>
+                                <span class="text-sm font-medium">Labor Strike - Los Angeles</span>
+                            </div>
+                            <span class="text-sm text-red-600 font-medium">High Risk</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Side panel -->
+            <div class="rounded-lg border bg-white shadow-sm p-6">
+                <div class="flex flex-col space-y-1.5">
+                    <h3 class="text-lg font-semibold text-gray-900">Recent Activity</h3>
+                    <p class="text-sm text-gray-600">Latest supply chain updates</p>
+                </div>
+                <div class="mt-4 space-y-3">
+                    <div class="text-sm">
+                        <p class="font-medium">Shipment Delayed</p>
+                        <p class="text-gray-600">Container ship delayed 2 days</p>
+                    </div>
+                    <div class="text-sm">
+                        <p class="font-medium">Route Optimized</p>
+                        <p class="text-gray-600">Alternative route suggested</p>
+                    </div>
+                    <div class="text-sm">
+                        <p class="font-medium">Risk Alert</p>
+                        <p class="text-gray-600">New disruption detected</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Simple globe animation
+        const canvas = document.getElementById('globe');
+        const ctx = canvas.getContext('2d');
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        const radius = 60;
+
+        let rotation = 0;
+
+        // Risk hotspot locations
+        const hotspots = [
+            { lng: -74, lat: 40.7 }, // New York
+            { lng: 0, lat: 51.5 },   // London
+            { lng: 139.7, lat: 35.7 }, // Tokyo
+            { lng: 121.5, lat: 31.2 }, // Shanghai
+            { lng: -118.2, lat: 34.1 }, // Los Angeles
+            { lng: 2.3, lat: 48.9 },   // Paris
+        ];
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw globe outline
+            ctx.strokeStyle = '#e2e8f0';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+            ctx.stroke();
+            
+            // Draw meridians
+            for (let i = 0; i < 12; i++) {
+                const angle = (i * Math.PI) / 6 + rotation;
+                ctx.beginPath();
+                ctx.ellipse(centerX, centerY, Math.abs(radius * Math.cos(angle)), radius, 0, 0, Math.PI * 2);
+                ctx.stroke();
+            }
+            
+            // Draw parallels
+            for (let i = 1; i < 6; i++) {
+                const y = (radius * i) / 3;
+                const ellipseRadius = radius * Math.sin(Math.acos(y / radius));
+                
+                ctx.beginPath();
+                ctx.ellipse(centerX, centerY - y, ellipseRadius, ellipseRadius * 0.3, 0, 0, Math.PI * 2);
+                ctx.stroke();
+                
+                ctx.beginPath();
+                ctx.ellipse(centerX, centerY + y, ellipseRadius, ellipseRadius * 0.3, 0, 0, Math.PI * 2);
+                ctx.stroke();
+            }
+            
+            // Draw risk hotspots
+            hotspots.forEach((hotspot, index) => {
+                const x = centerX + (hotspot.lng / 180) * radius * Math.cos(rotation);
+                const y = centerY - (hotspot.lat / 90) * radius * 0.8;
+                
+                // Pulsing effect
+                const pulse = Math.sin(Date.now() * 0.005 + index) * 0.5 + 0.5;
+                const dotRadius = 2 + pulse * 1;
+                
+                ctx.fillStyle = `rgba(239, 68, 68, ${0.7 + pulse * 0.3})`;
+                ctx.beginPath();
+                ctx.arc(x, y, dotRadius, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Outer ring
+                ctx.strokeStyle = `rgba(239, 68, 68, ${0.4 + pulse * 0.2})`;
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.arc(x, y, dotRadius + 2, 0, Math.PI * 2);
+                ctx.stroke();
+            });
+            
+            rotation += 0.005;
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    </script>
+</body>
 </html>
