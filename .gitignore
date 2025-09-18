@@ -43,3 +43,6 @@ logs
 # package-lock.json
 # yarn.lock
 # pnpm-lock.yaml
+
+# Ignore nested repo folder that should remain a separate repository
+proto-front-end/
