@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  verify-files:
+    runs-on: ubuntu-latest
+    name: Verify repository structure
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Ensure required files exist
+        run: |
+          set -e
+          echo "Checking for required files..."
+          if [ ! -f "index.html" ]; then
+            echo "ERROR: index.html not found"; exit 1
+          fi
+          if [ ! -d "assets" ]; then
+            echo "ERROR: assets/ directory not found"; exit 1
+          fi
+          if [ ! -d "proto-front-end" ]; then
+            echo "ERROR: proto-front-end/ directory not found"; exit 1
+          fi
+          echo "All required files and directories are present."
