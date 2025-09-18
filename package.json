@@ -1,6 +1,16 @@
-@@ .. @@
-   "scripts": {
--    "test": "echo \"Error: no test specified\" && exit 1"
-+    "test": "echo \"Error: no test specified\" && exit 1",
-+    "start": "http-server . -p 8000"
-   },
+{
+  "name": "project",
+  "version": "1.0.0",
+  "description": "This repository contains a small front-end prototype. The repository is set up to match the workspace structure exactly:",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "http-server . -p 8000"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "http-server": "^14.1.1"
+  }
+}
